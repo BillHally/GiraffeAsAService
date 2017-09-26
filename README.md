@@ -70,5 +70,5 @@
 ## References
 
 1. Dustin Moris Gorski's [Giraffe](https://github.com/dustinmoris/Giraffe) - 
-A native functional ASP.NET Core web framework for F# developers
+"A native functional ASP.NET Core web framework for F# developers"
 1. [How to run and ASP.Net Core application as a Windows service](https://docs.microsoft.com/en-us/aspnet/core/hosting/windows-service)
