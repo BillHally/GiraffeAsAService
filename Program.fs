@@ -9,8 +9,9 @@ open Microsoft.AspNetCore.Hosting.WindowsServices
 open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
-open Giraffe.HttpHandlers
-open Giraffe.Middleware
+
+open Giraffe
+open Giraffe.Razor
 open Giraffe.Razor.HttpHandlers
 open Giraffe.Razor.Middleware
 open GiraffeAsAService.Models
@@ -23,7 +24,7 @@ let webApp =
     choose [
         GET >=>
             choose [
-                route "/" >=> razorHtmlView "Index" { Text = "Hello world, from Giraffe!" }
+                route "/" >=> razorHtmlView "Index" (Some { Text = "Hello world, from Giraffe (running as a service)!" } ) None None
             ]
         setStatusCode 404 >=> text "Not Found" ]
 
@@ -40,9 +41,9 @@ let errorHandler (ex : Exception) (logger : ILogger) =
 // ---------------------------------
 
 let configureApp (app : IApplicationBuilder) =
-    app.UseGiraffeErrorHandler errorHandler
-    app.UseStaticFiles() |> ignore
-    app.UseGiraffe webApp
+    app.UseGiraffeErrorHandler(errorHandler)
+       .UseStaticFiles()
+       .UseGiraffe webApp
 
 let configureServices (services : IServiceCollection) =
     let sp  = services.BuildServiceProvider()
